@@ -12,3 +12,4 @@ end
 
 require 'flickr/collage/version'
 require 'flickr/collage/config'
+require 'flickr/collage/dictionary'
