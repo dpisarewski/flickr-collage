@@ -42,6 +42,10 @@ Defaults:
     keywords    - random keywords from `/usr/share/dict/words`
     thumb_width - 300
     
+Example:
+
+    flickr-collage create col.png --verbose --api_key MY_KEY --secret MY_SECRET --keywords "new york" hamburg moscow "san francisco" 
+    
 ### Using Flickr::Collage API
 
 Save credentials for [Flickr API](https://www.flickr.com/services/api/).
