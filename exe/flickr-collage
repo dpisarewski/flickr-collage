@@ -25,6 +25,7 @@ module Flickr
       option :keywords,     type: :array,  desc: 'Keywords to search on Flickr'
       option :columns,      type: :numeric, desc: 'Number of columns on the collage'
       def create(filename = nil)
+        return unless check_config
         Collage.verbose! if options[:verbose]
 
         opts = Hashie::Mash.new(options.to_h)
@@ -36,6 +37,15 @@ module Flickr
         maker   = Maker.new(service)
         service.top_photos(*opts[:keywords])
         maker.create(opts)
+      end
+
+      private
+
+      def check_config
+        return true if (Collage.config.api_key and Collage.config.secret) or (options[:api_key] and options[:secret])
+
+        puts "You must specify Flickr creadentials to use flickr-collage."
+        puts "Use config command or pass your credentials using --api_key and --secret options."
       end
     end
   end

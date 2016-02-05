@@ -26,6 +26,8 @@ module Flickr
       end
 
       def load(config_path = DEFAULT_CONFIG_PATH)
+        return Hashie::Mash.new unless File.exist?(config_path)
+
         self.data = Hashie::Mash.new(YAML.load_file(config_path))
       end
 

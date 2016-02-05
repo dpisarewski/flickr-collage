@@ -7,8 +7,10 @@ describe Flickr::Collage::Config do
   let(:new_settings)      { {api_key: 'test', secret: 'test'} }
   let(:invalid_settings)  { {my_key: false} }
   let(:test_config_path)  { 'config/test.yml' }
+  let(:valid_settings)    { {api_key: 'api_key', secret: 'secret'}}
 
   it 'loads settings' do
+    subject.save(valid_settings)
     expect(subject.settings).to have_key(:api_key)
     expect(subject.settings).to have_key(:secret)
   end
