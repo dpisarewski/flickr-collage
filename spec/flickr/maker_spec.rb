@@ -7,7 +7,7 @@ describe Flickr::Collage::Maker do
 
   it 'writes image to a given file' do
     subject.service.top_photos
-    subject.create output_filename
+    subject.create(output: output_filename)
     expect(Magick::Image.read(output_filename).first.format).to eq('JPEG')
     File.delete(output_filename)
   end
