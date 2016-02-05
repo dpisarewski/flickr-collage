@@ -6,13 +6,14 @@ module Flickr
   module Collage
     class Service
       DEFAULT_PHOTOS_AMOUNT = 10
-      attr_accessor :logger, :photos
+      attr_accessor :logger, :photos, :photos_amount
 
-      def initialize
-        self.photos   = []
-        self.logger   = Logger.new(STDOUT)
+      def initialize(photos_amount = DEFAULT_PHOTOS_AMOUNT)
+        self.photos_amount  = photos_amount
+        self.photos         = []
+        self.logger         = Logger.new(STDOUT)
+        logger.level        = Logger::WARN
         #TODO: decrease logger level if verbose option was given
-        logger.level  = Logger::WARN
         FlickRaw.api_key        = Collage.config.api_key
         FlickRaw.shared_secret  = Collage.config.secret
       end
@@ -22,7 +23,7 @@ module Flickr
         buffer  = keywords.dup
         dict    = Dictionary.new
 
-        while photos.size < 10
+        while photos.size < photos_amount
           buffer << dict.random_word if buffer.empty?
           keyword = buffer.shift
           logger.info("New keyword from dictionary: #{keyword}")
