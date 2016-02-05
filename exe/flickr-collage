@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler'
+Bundler.setup
+Bundler.require(:default)
+
+require 'thor'
+require 'hashie'
+require 'flickr/collage'
+
+module Flickr
+  module Collage
+    class CLI < Thor
+      class_option :verbose,  type: :boolean
+      class_option :api_key,  type: :string
+      class_option :secret,   type: :string
+
+      desc 'config', 'Save configuration options to the configuration file'
+      option :api_key,  type: :string
+      option :secret,   type: :string
+      def config
+        Collage.config.save(options)
+      end
+
+      desc 'create FILENAME', 'Creates a collage for given keywords'
+      option :amount,       type: :numeric, desc: 'Number of photos on the collage'
+      option :thumb_width,  type: :numeric, desc: 'Width of thumbnails on the collage'
+      option :keywords,     type: :array,  desc: 'Keywords to search on Flickr'
+      option :columns,      type: :numeric, desc: 'Number of columns on the collage'
+      def create(filename = nil)
+        Collage.verbose! if options[:verbose]
+
+        opts = Hashie::Mash.new(options.to_h)
+        opts.merge!(output: filename) if filename
+
+        Collage.config.settings = opts if opts[:api_key] and opts[:secret]
+
+        service = Service.new(opts[:amount])
+        maker   = Maker.new(service)
+        service.top_photos(*opts[:keywords])
+        maker.create(opts)
+      end
+    end
+  end
+end
+
+Flickr::Collage::CLI.start(ARGV)
