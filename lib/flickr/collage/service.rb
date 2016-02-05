@@ -25,7 +25,7 @@ module Flickr
         while photos.size < photos_amount
           buffer << dict.random_word if buffer.empty?
           keyword = buffer.shift
-          Collage.logger.info("New keyword from dictionary: #{keyword}")
+          Collage.logger.info("New keyword: #{keyword}")
           photo   = top_photo(keyword)
           photos << photo if photo
         end
