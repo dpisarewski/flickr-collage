@@ -4,8 +4,8 @@ module Flickr
       DEFAULT_DICT_FILE = '/usr/share/dict/words'
       attr_accessor :dict_filename
 
-      def initialize(dict_filename = DEFAULT_DICT_FILE)
-        self.dict_filename = dict_filename
+      def initialize(dict_filename = nil)
+        self.dict_filename = dict_filename || DEFAULT_DICT_FILE
       end
 
       def size
@@ -22,7 +22,7 @@ module Flickr
           #skip n - 1 lines
           (number - 1).times{ file.gets }
           #read line number and close the file
-          next file.gets
+          next file.gets.chomp
         end
       end
     end
