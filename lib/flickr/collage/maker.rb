@@ -1,3 +1,5 @@
+require 'hashie'
+
 Flickr::Collage.silence_warnings do
   require 'rmagick/screwdrivers'
 end
@@ -14,7 +16,7 @@ module Flickr
       end
 
       def create(options = {})
-        options = Hashie::Mash.new(options.reverse_merge(DEFAULT_OPTIONS))
+        options = Hashie::Mash.new(options).reverse_merge(DEFAULT_OPTIONS)
         options = Hashie::Extensions::SymbolizeKeys.symbolize_keys(options.to_h)
 
         Dir.mktmpdir do |dir|
