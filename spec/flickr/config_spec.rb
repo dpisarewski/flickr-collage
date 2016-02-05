@@ -5,6 +5,7 @@ describe Flickr::Collage::Config do
   after   { Singleton.__init__(Flickr::Collage::Config) }
 
   let(:new_settings)      { {api_key: 'test', secret: 'test'} }
+  let(:invalid_settings)  { {my_key: false} }
   let(:test_config_path)  { 'config/test.yml' }
 
   it 'loads settings' do
@@ -29,5 +30,12 @@ describe Flickr::Collage::Config do
       subject.load(test_config_path)
       File.delete(test_config_path)
     }.to change(subject, :api_key).to(new_settings[:api_key])
+  end
+
+  it 'saves only defined options' do
+    subject.save(invalid_settings, test_config_path)
+    subject.load(test_config_path)
+    File.delete(test_config_path)
+    expect(subject.api_key).to be_nil
   end
 end
