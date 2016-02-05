@@ -8,4 +8,8 @@ describe Flickr::Collage do
   it 'config is available' do
     expect(Flickr::Collage.config).to be
   end
+
+  it 'sets logger to warn level' do
+    expect(Flickr::Collage.logger.level).to eq(Logger::WARN)
+  end
 end

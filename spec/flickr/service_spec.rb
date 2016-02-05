@@ -20,10 +20,6 @@ describe Flickr::Collage::Service do
       expect{ subject }.to change(FlickRaw, :shared_secret)
       expect(FlickRaw.shared_secret).to be
     end
-
-    it 'sets logger to warn level' do
-      expect(subject.logger.level).to eq(Logger::WARN)
-    end
   end
 
   it 'retrieves a photo for a give keyword from flickr' do

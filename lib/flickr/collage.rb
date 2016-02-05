@@ -1,11 +1,24 @@
+require 'logger'
+
 module Flickr
   module Collage
+    LOGGER       = Logger.new(STDOUT)
+    LOGGER.level = Logger::WARN
+
     def self.root
       File.expand_path('../..', File.dirname(__FILE__))
     end
 
     def self.config
       Config.instance
+    end
+
+    def self.logger
+      LOGGER
+    end
+
+    def self.verbose!
+      logger.level = Logger::DEBUG
     end
 
     def self.silence_warnings(&block)

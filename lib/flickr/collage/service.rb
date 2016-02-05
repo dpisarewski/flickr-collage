@@ -1,32 +1,31 @@
 require 'flickraw'
-require 'logger'
 require 'open-uri'
+require 'forwardable'
 
 module Flickr
   module Collage
     class Service
-      DEFAULT_PHOTOS_AMOUNT = 10
-      attr_accessor :logger, :photos, :photos_amount
+      extend Forwardable
 
-      def initialize(photos_amount = DEFAULT_PHOTOS_AMOUNT)
-        self.photos_amount  = photos_amount
+      DEFAULT_PHOTOS_AMOUNT = 10
+      attr_accessor :photos, :photos_amount
+
+      def initialize(photos_amount = nil)
+        self.photos_amount  = photos_amount || DEFAULT_PHOTOS_AMOUNT
         self.photos         = []
-        self.logger         = Logger.new(STDOUT)
-        logger.level        = Logger::WARN
-        #TODO: decrease logger level if verbose option was given
         FlickRaw.api_key        = Collage.config.api_key
         FlickRaw.shared_secret  = Collage.config.secret
       end
 
       def top_photos(*keywords)
         self.photos = []
-        buffer  = keywords.dup
+        buffer  = keywords.compact.dup
         dict    = Dictionary.new
 
         while photos.size < photos_amount
           buffer << dict.random_word if buffer.empty?
           keyword = buffer.shift
-          logger.info("New keyword from dictionary: #{keyword}")
+          Collage.logger.info("New keyword from dictionary: #{keyword}")
           photo   = top_photo(keyword)
           photos << photo if photo
         end
