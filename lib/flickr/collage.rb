@@ -1,4 +1,4 @@
-require "flickr/collage/version"
+require 'flickr/collage/version'
 
 module Flickr
   module Collage
