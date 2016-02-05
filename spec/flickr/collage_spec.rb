@@ -5,7 +5,7 @@ describe Flickr::Collage do
     expect(Flickr::Collage::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'config is available' do
+    expect(Flickr::Collage.config).to be
   end
 end
