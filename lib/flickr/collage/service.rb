@@ -11,16 +11,16 @@ module Flickr
       attr_accessor :photos, :photos_amount
 
       def initialize(photos_amount = nil)
-        self.photos_amount  = photos_amount || DEFAULT_PHOTOS_AMOUNT
-        self.photos         = []
+        self.photos_amount      = photos_amount || DEFAULT_PHOTOS_AMOUNT
+        self.photos             = []
         FlickRaw.api_key        = Collage.config.api_key
         FlickRaw.shared_secret  = Collage.config.secret
       end
 
       def top_photos(*keywords)
         self.photos = []
-        buffer  = keywords.compact.dup
-        dict    = Dictionary.new
+        buffer      = keywords.compact.dup
+        dict        = Dictionary.new
 
         while photos.size < photos_amount
           buffer << dict.random_word if buffer.empty?

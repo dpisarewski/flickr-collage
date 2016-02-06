@@ -1,5 +1,5 @@
 require 'singleton'
-require 'hashie'
+require 'hashie/mash'
 require 'yaml'
 require 'forwardable'
 

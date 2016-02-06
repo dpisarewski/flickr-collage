@@ -1,3 +1,5 @@
+require 'hashie/mash'
+
 module Flickr
   module Collage
     class Photo < Hashie::Mash

@@ -21,7 +21,7 @@ module Flickr
           #TODO: For small files only, load the the contents into memory. For large files, index lines or use database.
           #skip n - 1 lines
           (number - 1).times{ file.gets }
-          #read line number and close the file
+          #read a word and close the file
           next file.gets.chomp
         end
       end
