@@ -10,7 +10,8 @@ describe Flickr::Collage::Config do
   let(:valid_settings)    { {api_key: 'api_key', secret: 'secret'}}
 
   it 'loads settings' do
-    subject.save(valid_settings)
+    subject.save(valid_settings, test_config_path)
+    subject.load(test_config_path)
     expect(subject.settings).to have_key(:api_key)
     expect(subject.settings).to have_key(:secret)
   end
